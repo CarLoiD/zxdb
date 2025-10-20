@@ -29,6 +29,13 @@ Notebook::Notebook()
 {
     m_notebook = GTK_NOTEBOOK(m_handle);
 
+    // Set a default group name so that detachable tabs can attach to it
+    // TODO: In the near future, custom group name will be added so that tabs
+    // can be attached only to that specific tooling group, for example,
+    // a disassembly view would fit to be on the same group as source view
+    // or project/workspace view.
+    gtk_notebook_set_group_name(m_notebook, "main-group");
+
     //SetExpand(true, true); // Making sure notebook expands itself
     ShowTabs();
 }
@@ -36,21 +43,32 @@ Notebook::Notebook()
 void Notebook::AddTab(Widget& child, std::string_view title) {
     Label text(title);
 
+    struct TabData {
+        GtkNotebook* notebook;
+        GtkWidget* child;
+    };
+
     Button close;
+    close.SetTooltipText("Close Tab");
     close.SetIcon("window-close-symbolic");
-    gtk_widget_set_tooltip_text(close.GetHandle(), "Close Tab");
+    
+    close.SetOnClickCallback([]{
+    });
 
-    HBox box;
-    box.SetOpt(true, true);
-    box.Add(text);
-    box.Add(close);
-
-    box.ShowAll();
+    HBox custom_label;
+    custom_label.SetOpt(true, true);
+    custom_label.Add(text);
+    custom_label.Add(close);
+    custom_label.ShowAll();
 
     gtk_notebook_append_page(
         m_notebook, 
         child.GetHandle(),
-        box.GetHandle());
+        custom_label.GetHandle());
+
+    // Enable tab behavior
+    gtk_notebook_set_tab_detachable(m_notebook, child.GetHandle(), false);
+    gtk_notebook_set_tab_reorderable(m_notebook, child.GetHandle(), true);
 }
 
 void Notebook::HideTabs() {

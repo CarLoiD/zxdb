@@ -32,6 +32,9 @@ void Stack::AddNamed(Widget& child, std::string_view name) {
         m_stack, 
         child.GetHandle(), 
         name.data());
+
+    // Ensure the widget can be visible
+    child.ShowAll();
 }
 
 void Stack::SetVisible(std::string_view name) {
