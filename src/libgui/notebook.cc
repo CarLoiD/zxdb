@@ -40,25 +40,27 @@ Notebook::Notebook()
     ShowTabs();
 }
 
-void Notebook::AddTab(Widget& child, std::string_view title) {
+void Notebook::AddTab(Widget& child, std::string_view title, const bool close) {
     Label text(title);
-
-    struct TabData {
-        GtkNotebook* notebook;
-        GtkWidget* child;
-    };
-
-    Button close;
-    close.SetTooltipText("Close Tab");
-    close.SetIcon("window-close-symbolic");
-    
-    close.SetOnClickCallback([]{
-    });
 
     HBox custom_label;
     custom_label.SetOpt(true, true);
     custom_label.Add(text);
-    custom_label.Add(close);
+
+    if (close) {
+        Button close;
+        close.SetTooltipText("Close Tab");
+        close.SetIcon("window-close-symbolic");
+
+        GtkWidget* ptr = child.GetHandle();
+        close.SetOnClickCallback([ptr, this](GtkWidget* btn){
+            const u32 index = gtk_notebook_page_num(m_notebook, ptr); 
+            gtk_notebook_remove_page(m_notebook, index);
+        });
+
+        custom_label.Add(close);
+    }
+
     custom_label.ShowAll();
 
     gtk_notebook_append_page(
@@ -68,7 +70,7 @@ void Notebook::AddTab(Widget& child, std::string_view title) {
 
     // Enable tab behavior
     gtk_notebook_set_tab_detachable(m_notebook, child.GetHandle(), false);
-    gtk_notebook_set_tab_reorderable(m_notebook, child.GetHandle(), true);
+    gtk_notebook_set_tab_reorderable(m_notebook, child.GetHandle(), close);
 }
 
 void Notebook::HideTabs() {

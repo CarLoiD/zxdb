@@ -31,13 +31,13 @@ public:
 
     // Pointer to member function (method) version
     template <typename T>
-    void SetOnClickCallback(T* instance, void (T::*method)()) {
+    void SetOnClickCallback(T* instance, void (T::*method)(GtkWidget*)) {
         ASSERT(m_clickable_widget, "m_clickable_widget was nullptr");
 
         // The callback need non scoped data in order to call the method later
         struct Data {
             T* instance;
-            void (T::*method)();
+            void (T::*method)(GtkWidget*);
         };
 
         // Alloc such data on the heap
@@ -49,9 +49,9 @@ public:
         g_signal_connect_data(
             m_clickable_widget,
             "clicked",
-            G_CALLBACK(+[](GtkWidget*, gpointer user_data) {
+            G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
                 auto* thiz = static_cast<Data*>(user_data);
-                (thiz->instance->*(thiz->method))();
+                (thiz->instance->*(thiz->method))(widget);
             }),
             udata,
             [](gpointer data, GClosure*) { delete static_cast<Data*>(data); },
@@ -72,9 +72,9 @@ public:
         g_signal_connect_data(
             m_clickable_widget,
             "clicked",
-            G_CALLBACK(+[](GtkWidget*, gpointer user_data) {
+            G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
                 auto* f = static_cast<Functor*>(user_data);
-                (*f)();
+                (*f)(widget);
             }),
             udata,
             [](gpointer data, GClosure*) { delete static_cast<Functor*>(data); },

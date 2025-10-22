@@ -27,11 +27,10 @@ class Notebook final : public Widget {
 public:
     Notebook();
 
-    void AddTab(Widget& child, std::string_view title);
+    void AddTab(Widget& child, std::string_view title, const bool close = false);
     
     void HideTabs();
     void ShowTabs();
-
 
 private:
     GtkNotebook* m_notebook;    

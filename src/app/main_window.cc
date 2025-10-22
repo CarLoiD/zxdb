@@ -142,6 +142,16 @@ void MainWindow::SetupCustomStyle() {
         }
     )");
 
+    // Tab styling
+    Widget::GlobalEvalCSS(R"(
+        /* Make tab height a little shorter */
+        notebook tab {
+            padding-top: 0px;
+            padding-bottom: 2px;
+            min-height: 0px;
+        }
+    )");
+
     // Set default font family
     auto font_style = "* { font-family: 'Noto Sans'; font-size: 12.7px; }";
     UI::Widget::GlobalEvalCSS(font_style);
@@ -155,7 +165,11 @@ void MainWindow::SetupArea() {
     m_area_stack.AddNamed(m_area, "views");
     
     UI::Label workspace("WORKSPACE VIEW");
+    UI::Label source("SOURCE VIEW");
+    UI::Label disasm("DISASSEMBLY VIEW");
     m_area.AddTab(workspace, "Workspace");
+    m_area.AddTab(source, "main.cpp");
+    m_area.AddTab(disasm, "Disassembly");
 
     m_area_stack.SetVisible("views");
     

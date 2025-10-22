@@ -59,6 +59,7 @@ public:
     void SetMargin(const int offset);
     void SetExpand(const bool h_expand, const bool v_expand);
     void RequestSize(const s32 req_width, const s32 req_height);
+    void SetTooltipText(std::string_view text);
 
     void SetVisible(const bool visible);
     void Show();

@@ -103,6 +103,11 @@ void Widget::RequestSize(const s32 req_width, const s32 req_height) {
     gtk_widget_set_size_request(m_handle, req_width, req_height);
 }
 
+void Widget::SetTooltipText(std::string_view text) {
+    ASSERT_PTR(m_handle);
+    gtk_widget_set_tooltip_text(m_handle, text.data());
+}
+
 void Widget::SetVisible(const bool visible) {
     ASSERT_PTR(m_handle);
     gtk_widget_set_visible(m_handle, visible);
