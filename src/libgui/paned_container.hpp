@@ -28,10 +28,10 @@ public:
     PanedContainer() : m_root(nullptr) {}
     ~PanedContainer() {}
 
-    void Append(Widget& child, const PanedOrientation& orientation) {
+    Paned* Append(Widget& child, const PanedOrientation& orientation) {
         if (!m_root) {
             m_root = &child;
-            return;
+            return nullptr;
         }
 
         // TODO: Find some way to not leak memory, maybe track allocations
@@ -49,6 +49,7 @@ public:
 
         // Update root
         m_root = paned;
+        return paned;
     }
 
     Widget& GetRoot() const {

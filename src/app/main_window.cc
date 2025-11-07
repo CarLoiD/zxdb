@@ -149,6 +149,15 @@ void MainWindow::SetupCustomStyle() {
             padding-top: 0px;
             padding-bottom: 2px;
         }
+
+        paned separator {
+            background: transparent;
+            border: none;
+            min-width: 1px;
+            min-height: 1px;
+            padding: 0;
+            margin: 0;
+        }
     )");
 
     // Set default font family
@@ -176,10 +185,14 @@ void MainWindow::SetupArea() {
 
     UI::Label trace("TRACE VIEW.");
 
-    m_view_container.Append(m_project_views, UI::PanedOrientation::kHorizontal);
-    m_view_container.Append(m_source_stack, UI::PanedOrientation::kHorizontal);
-    m_view_container.Append(m_memory_views, UI::PanedOrientation::kHorizontal);
-    m_view_container.Append(trace, UI::PanedOrientation::kVertical);
+    UI::Paned* p = nullptr;
+    p = m_view_container.Append(m_project_views, UI::PanedOrientation::kHorizontal);
+    p = m_view_container.Append(m_source_stack, UI::PanedOrientation::kHorizontal);
+    p->SetDivPosition(320);
+    p = m_view_container.Append(m_memory_views, UI::PanedOrientation::kHorizontal);
+    p->SetDivPosition(940);
+    p = m_view_container.Append(trace, UI::PanedOrientation::kVertical);
+    p->SetDivPosition(500);
     
     // Fill the area with the stack
     m_vbox.SetOpt(true, true);
