@@ -148,6 +148,7 @@ void MainWindow::SetupCustomStyle() {
         notebook tab {
             padding-top: 0px;
             padding-bottom: 2px;
+            box-shadow: none;
         }
 
         paned separator {
@@ -155,8 +156,8 @@ void MainWindow::SetupCustomStyle() {
             border: none;
             min-width: 1px;
             min-height: 1px;
-            padding: 0;
-            margin: 0;
+            padding: 0px;
+            margin: 1px;
         }
     )");
 
@@ -166,9 +167,6 @@ void MainWindow::SetupCustomStyle() {
 }
 
 void MainWindow::SetupArea() {
-    UI::Label empty("No source file selected.");
-    empty.SetTextColor(UI::Color(0xAA, 0xAA, 0xAA));
-    
     UI::Label workspace("WORKSPACE VIEW.");
     UI::Label symbols("SYMBOLS VIEW.");
     UI::Label functions("FUNCTIONS VIEW.");
@@ -176,23 +174,34 @@ void MainWindow::SetupArea() {
     m_project_views.AddTab(symbols, "Symbols");
     m_project_views.AddTab(functions, "Functions");
 
-    m_source_stack.AddNamed(empty, "empty");
+    UI::Label disasm("DISASSEMBLY VIEW.");
+    m_source_views.AddTab(disasm, "Disassembly");
 
     UI::Label registers("REGISTERS VIEW.");
     UI::Label memory("MEMORY VIEW.");
     m_memory_views.AddTab(registers, "Registers");
     m_memory_views.AddTab(memory, "Memory");
 
+    UI::Label watch("WATCH VIEW.");
+    m_watch_views.AddTab(watch, "Watch");
+
     UI::Label trace("TRACE VIEW.");
+    m_trace_views.AddTab(trace, "Call Stack");
+
+    UI::HPaned bottom;
+    bottom.Add(m_watch_views);
+    bottom.Add(m_trace_views);
+    bottom.SetDivPosition(600);
 
     UI::Paned* p = nullptr;
-    p = m_view_container.Append(m_project_views, UI::PanedOrientation::kHorizontal);
-    p = m_view_container.Append(m_source_stack, UI::PanedOrientation::kHorizontal);
-    p->SetDivPosition(320);
+    m_view_container.Append(m_project_views, UI::PanedOrientation::kHorizontal);
+    p = m_view_container.Append(m_source_views, UI::PanedOrientation::kHorizontal);
+    p->SetDivPosition(300);
     p = m_view_container.Append(m_memory_views, UI::PanedOrientation::kHorizontal);
     p->SetDivPosition(940);
-    p = m_view_container.Append(trace, UI::PanedOrientation::kVertical);
-    p->SetDivPosition(500);
+   
+    p = m_view_container.Append(bottom, UI::PanedOrientation::kVertical);
+    p->SetDivPosition(480);
     
     // Fill the area with the stack
     m_vbox.SetOpt(true, true);
