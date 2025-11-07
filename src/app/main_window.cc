@@ -151,6 +151,20 @@ void MainWindow::SetupCustomStyle() {
             box-shadow: none;
         }
 
+        notebook header tab label {
+            color: #555;
+        }
+
+        notebook header tab:checked label {
+            color: #fff;
+        }
+
+        notebook header tab:hover {
+            background: transparent;
+            box-shadow: none;
+            border: none;
+        }
+
         paned separator {
             background: transparent;
             border: none;
@@ -191,7 +205,7 @@ void MainWindow::SetupArea() {
     UI::HPaned bottom;
     bottom.Add(m_watch_views);
     bottom.Add(m_trace_views);
-    bottom.SetDivPosition(600);
+    bottom.SetDivPosition(625);
 
     UI::Paned* p = nullptr;
     m_view_container.Append(m_project_views, UI::PanedOrientation::kHorizontal);
