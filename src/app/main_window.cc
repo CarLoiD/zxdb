@@ -142,6 +142,8 @@ void MainWindow::SetupCustomStyle() {
         }
     )");
 
+#define BORDER #444
+
     // Tab styling
     Widget::GlobalEvalCSS(R"(
         /* Make tab height a little shorter */
@@ -149,6 +151,25 @@ void MainWindow::SetupCustomStyle() {
             padding-top: 0px;
             padding-bottom: 2px;
             box-shadow: none;
+        }
+
+        notebook:focus header {
+            background: inherit;
+            border-bottom: 2px solid #007abc;
+            padding: 0;
+        }
+
+        notebook:focus header tab:checked {
+            background: #2d2d2d;
+            border: 1px solid #007abc;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+
+        notebook header tab {
+            background: transparent;
+            border: none;
+            margin: 0;
         }
 
         notebook header tab label {
@@ -159,10 +180,10 @@ void MainWindow::SetupCustomStyle() {
             color: #fff;
         }
 
-        notebook header tab:hover {
-            background: transparent;
-            box-shadow: none;
+        notebook header tab:not(:checked):hover {
+            background: none;
             border: none;
+            box-shadow: none;
         }
 
         paned separator {
