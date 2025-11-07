@@ -23,6 +23,39 @@
 
 namespace UI {
 
+enum class PanedOrientation {
+    kHorizontal,
+    kVertical,
+};
+
+class Paned : public Widget {
+public:
+    Paned() = delete;
+    Paned(const PanedOrientation& orientation);
+    
+    void SetOpt(const bool resize, const bool shrink);
+    void SetDivPosition(int position);
+    void Add(Widget& child) override;
+
+private:
+    GtkPaned* m_paned;
+
+    int m_packed;
+
+    bool m_resize;
+    bool m_shrink;
+};
+
+class HPaned final : public Paned {
+public:
+    HPaned() : Paned(PanedOrientation::kHorizontal) {}
+};
+
+class VPaned final : public Paned {
+public:
+    VPaned() : Paned(PanedOrientation::kVertical) {}
+};
+
 } // namespace UI
 
 #endif // LIBGUI_PANED_HPP_

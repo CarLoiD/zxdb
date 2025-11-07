@@ -31,6 +31,8 @@
 #include <libgui/label.hpp>
 #include <libgui/menu_bar.hpp>
 #include <libgui/notebook.hpp>
+#include <libgui/paned.hpp>
+#include <libgui/paned_container.hpp>
 #include <libgui/stack.hpp>
 #include <libgui/status_bar.hpp>
 #include <libgui/window.hpp>

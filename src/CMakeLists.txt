@@ -33,6 +33,7 @@ set(GUI_LIB libgui/accelerator_target.cc
             libgui/menu_bar.cc
             libgui/menu_item.cc
             libgui/notebook.cc
+            libgui/paned.cc
             libgui/stack.cc
             libgui/status_bar.cc
             libgui/widget.cc

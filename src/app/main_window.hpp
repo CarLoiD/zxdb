@@ -43,8 +43,14 @@ private:
     UI::StatusBar m_status;
 
     // Main area widgets & views
-    UI::Stack m_area_stack;
-    UI::Notebook m_area;
+    UI::Stack m_source_stack;
+    UI::Notebook m_project_views;
+    UI::Notebook m_source_views;
+    UI::Notebook m_memory_views;
+    UI::Notebook m_trace_views;
+    UI::Notebook m_watch_views;
+
+    UI::PanedContainer m_view_container;
 };
 
 #endif // CLIENT_MAIN_WINDOW_HPP_

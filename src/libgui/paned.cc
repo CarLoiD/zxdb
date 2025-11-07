@@ -13,37 +13,46 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: window.hpp
+// File: paned.cc
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_WINDOW_HPP_
-#define LIBGUI_WINDOW_HPP_
-
-#include <libgui/widget.hpp>
+#include "paned.hpp"
 
 namespace UI {
 
-class HeaderBar;
+Paned::Paned(const PanedOrientation& orientation)
+    : Widget(gtk_paned_new(static_cast<GtkOrientation>(orientation)))
+{
+    m_paned = GTK_PANED(m_handle);
 
-class Window : public Widget {
-public:
-    Window();
+    m_resize = false;
+    m_shrink = false;
 
-    // Used to customize the default header bar to contain menus, icons, entries etc.
-    void SetHeaderBar(HeaderBar& bar);
+    m_packed = 0;
+}
 
-    void SetTitle(std::string_view new_title);
-    void Resize(int new_width, int new_height);
-    void Maximize();
-    virtual bool Close(); // Can overwrite the default behavior on close (e.g: confirm shutdown)
+void Paned::SetOpt(const bool resize, const bool shrink) {
+    m_resize = resize;
+    m_shrink = shrink;
+}
 
-    // A GTK3 Window can have a single child widget bound on it's container
-    void Add(Widget& child) override;
+void Paned::SetDivPosition(int position) {
+    gtk_paned_set_position(m_paned, position);
+}
 
-private:
-    GtkWindow* m_wnd;
-};
+void Paned::Add(Widget& child) {
+    if (m_packed >= 2) {
+        return;
+    }
+
+    if (m_packed) {
+        gtk_paned_pack2(m_paned, child.GetHandle(), m_resize, m_shrink);
+    } else {
+        gtk_paned_pack1(m_paned, child.GetHandle(), m_resize, m_shrink);
+    }
+
+    SetOpt(false, false);
+    ++m_packed;
+}
 
 } // namespace UI
-
-#endif // LIBGUI_WINDOW_HPP_

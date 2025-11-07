@@ -148,7 +148,6 @@ void MainWindow::SetupCustomStyle() {
         notebook tab {
             padding-top: 0px;
             padding-bottom: 2px;
-            min-height: 0px;
         }
     )");
 
@@ -158,35 +157,39 @@ void MainWindow::SetupCustomStyle() {
 }
 
 void MainWindow::SetupArea() {
-    UI::Label empty("No views are active.");
+    UI::Label empty("No source file selected.");
     empty.SetTextColor(UI::Color(0xAA, 0xAA, 0xAA));
     
-    m_area_stack.AddNamed(empty, "empty");
-    m_area_stack.AddNamed(m_area, "views");
-    
-    UI::Label workspace("WORKSPACE VIEW");
-    UI::Label source("SOURCE VIEW");
-    UI::Label disasm("DISASSEMBLY VIEW");
-    m_area.AddTab(workspace, "Workspace");
-    m_area.AddTab(source, "main.cpp");
-    m_area.AddTab(disasm, "Disassembly");
+    UI::Label workspace("WORKSPACE VIEW.");
+    UI::Label symbols("SYMBOLS VIEW.");
+    UI::Label functions("FUNCTIONS VIEW.");
+    m_project_views.AddTab(workspace, "Workspace");
+    m_project_views.AddTab(symbols, "Symbols");
+    m_project_views.AddTab(functions, "Functions");
 
-    m_area_stack.SetVisible("views");
-    
-    /* TODO: Implement such functions for handling view count state on m_area
-    m_area.SetOnEmptyCallback([m_area_stack](){ m_area_stack.SetVisible("empty"); });
-    m_area.SetOnCountCallback([m_area_stack](){ m_area_stack.SetVisible("views"); });
-    */
+    m_source_stack.AddNamed(empty, "empty");
+
+    UI::Label registers("REGISTERS VIEW.");
+    UI::Label memory("MEMORY VIEW.");
+    m_memory_views.AddTab(registers, "Registers");
+    m_memory_views.AddTab(memory, "Memory");
+
+    UI::Label trace("TRACE VIEW.");
+
+    m_view_container.Append(m_project_views, UI::PanedOrientation::kHorizontal);
+    m_view_container.Append(m_source_stack, UI::PanedOrientation::kHorizontal);
+    m_view_container.Append(m_memory_views, UI::PanedOrientation::kHorizontal);
+    m_view_container.Append(trace, UI::PanedOrientation::kVertical);
     
     // Fill the area with the stack
     m_vbox.SetOpt(true, true);
-    m_vbox.Add(m_area_stack);
+    m_vbox.Add(m_view_container.GetRoot());
 }
 
 void MainWindow::SetupStatusBar() {
     m_status.AddColor(UI::Color(0x007acc)); // Color 0 -> Normal Status
     m_status.AddColor(UI::Color(0xfa0000)); // Color 1 -> Error Status
-    m_status.AddColor(UI::Color(0xff00ff)); // Color 2 -> Warning Status
+    m_status.AddColor(UI::Color(0xf55505)); // Color 2 -> Warning Status
     m_status.SetText("Ready", 0);
 
     m_vbox.Add(m_status);
@@ -194,6 +197,7 @@ void MainWindow::SetupStatusBar() {
 
 MainWindow::MainWindow() {
     Resize(kInitWidth, kInitHeight);
+    Maximize();
     
     // Attach main vertical container
     Add(m_vbox);
