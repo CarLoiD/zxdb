@@ -142,14 +142,11 @@ void MainWindow::SetupCustomStyle() {
         }
     )");
 
-#define BORDER #444
-
     // Tab styling
     Widget::GlobalEvalCSS(R"(
         /* Make tab height a little shorter */
         notebook tab {
-            padding-top: 0px;
-            padding-bottom: 2px;
+            min-height: 4px;
             box-shadow: none;
         }
 
