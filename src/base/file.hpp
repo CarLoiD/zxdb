@@ -13,30 +13,20 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: include.hpp
+// File: file.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_LIBGUI_HPP_
-#define LIBGUI_LIBGUI_HPP_
+#ifndef BASE_FILE_HPP_
+#define BASE_FILE_HPP_
 
-// base
-#include <base/assert.hpp>
-#include <base/file.hpp>
-#include <base/path.hpp>
+#include <base/types.hpp>
+#include <string>
 
-// libgui
-#include <libgui/application.hpp>
-#include <libgui/box.hpp>
-#include <libgui/button.hpp>
-#include <libgui/header_bar.hpp>
-#include <libgui/image.hpp>
-#include <libgui/label.hpp>
-#include <libgui/menu_bar.hpp>
-#include <libgui/notebook.hpp>
-#include <libgui/paned.hpp>
-#include <libgui/paned_container.hpp>
-#include <libgui/stack.hpp>
-#include <libgui/status_bar.hpp>
-#include <libgui/window.hpp>
+namespace Base::File {
 
-#endif // LIBGUI_LIBGUI_HPP_
+[[nodiscard]] size_t GetSize(std::string_view file_path);
+[[nodiscard]] std::string ReadToString(std::string_view file_path);
+
+} // namespace Base::File
+
+#endif // BASE_FILE_HPP_

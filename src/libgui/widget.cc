@@ -18,6 +18,7 @@
 
 #include "widget.hpp"
 #include "base/assert.hpp"
+#include "base/file.hpp"
 
 namespace UI {
 
@@ -31,6 +32,11 @@ void Widget::GlobalEvalCSS(std::string_view expression) {
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
     g_object_unref(provider);
+}
+
+void Widget::GlobalEvalCSSFromFile(std::string_view file_path) {
+    const std::string css = Base::File::ReadToString(file_path);
+    GlobalEvalCSS(css);
 }
 
 Widget::Widget(GtkWidget* handle) {

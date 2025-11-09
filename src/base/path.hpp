@@ -24,7 +24,7 @@
 
 namespace Base::Path {
 
-std::string GetDirectoryName(std::string_view file_path);
+[[nodiscard]] std::string GetDirectoryName(std::string_view file_path);
 
 } // namespace Base::Path
 

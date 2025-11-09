@@ -45,6 +45,7 @@ public:
 
     // GDK screen is used as context for the style eval
     static void GlobalEvalCSS(std::string_view expression);
+    static void GlobalEvalCSSFromFile(std::string_view file_path);
 
 public:
     Widget() = delete; // Force wrappers to be impl. using Widget(GtkWidget*) constructor

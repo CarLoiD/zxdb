@@ -13,30 +13,42 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: include.hpp
+// File: file.cc
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_LIBGUI_HPP_
-#define LIBGUI_LIBGUI_HPP_
+#include "file.hpp"
+#include <cstdio>
 
-// base
-#include <base/assert.hpp>
-#include <base/file.hpp>
-#include <base/path.hpp>
+namespace Base::File {
 
-// libgui
-#include <libgui/application.hpp>
-#include <libgui/box.hpp>
-#include <libgui/button.hpp>
-#include <libgui/header_bar.hpp>
-#include <libgui/image.hpp>
-#include <libgui/label.hpp>
-#include <libgui/menu_bar.hpp>
-#include <libgui/notebook.hpp>
-#include <libgui/paned.hpp>
-#include <libgui/paned_container.hpp>
-#include <libgui/stack.hpp>
-#include <libgui/status_bar.hpp>
-#include <libgui/window.hpp>
+size_t GetSize(std::string_view file_path) {
+    size_t ret = -1;
 
-#endif // LIBGUI_LIBGUI_HPP_
+    FILE* fp = fopen(file_path.data(), "r");
+    if (!fp) return -1;
+
+    fseek(fp, 0, SEEK_END);
+    ret = ftell(fp);
+    fclose(fp);
+
+    return ret;
+}
+
+std::string ReadToString(std::string_view file_path) {
+    const size_t sz = GetSize(file_path);
+    if (!sz) return "!INVALID FILE SIZE!";
+
+    std::string ret;
+    ret.reserve(sz);
+    
+    FILE* fp = fopen(file_path.data(), "r");
+    if (!fp) return "!INVALID FILE PATH!";
+
+    fseek(fp, 0, SEEK_SET);
+    fread(&ret[0], sizeof(char), sz, fp);
+    fclose(fp);
+
+    return ret;
+}
+
+}

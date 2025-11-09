@@ -1,0 +1,114 @@
+* {
+    font-family: 'Noto Sans';
+    font-size: 12.7px;
+}
+
+window { 
+    background-color: #2d2d2d; 
+    color: white; 
+}
+
+/* Custom headerbar styling for this application
+ * Needed in order to remove padding from bar, as
+ * Usual Widget::SetMargin() won't cut it...
+ */
+headerbar {
+    min-height: 32px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border: none;
+    box-shadow: none;
+    background: #2d2d2d;
+    color: white;
+}
+
+headerbar:backdrop {
+    background: #2d2d2d;
+    color: white;
+}
+ 
+menubar, menu, menu popup, menuitem {
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+separator {
+    background: #444;
+    margin-left: 30px;
+}
+
+window.menu,
+window.menu.background,
+decoration {
+    /* Border must be present on Linux, if not, big shit happens...
+     * GTK on Linux uses decoration as the way of presenting the menu
+     * at all, as it seems... on Windows it works fine with without
+     * this border (border: none;), hacky fix...
+     */
+    border: 1px solid rgba(0, 0, 0, 0.01);
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+}
+
+menu {
+    background: #222;
+    border: 1px solid #444; 
+    padding: 4px;
+    border-radius: 6px;
+}
+
+/* Set the backdrop so that it doesn't glitch when out of focus */
+menuitem:backdrop {
+    background: #222222;
+    color: white;
+    border-radius: 0px;
+}
+
+/* Make tab height a little shorter */
+notebook tab {
+    min-height: 4px;
+    box-shadow: none;
+}
+
+notebook:focus header {
+    background: inherit;
+    border-bottom: 2px solid #007abc;
+    padding: 0;
+}
+
+notebook:focus header tab:checked {
+    background: #2d2d2d;
+    border: 1px solid #007abc;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+}
+
+notebook header tab {
+    background: transparent;
+    border: none;
+    margin: 0;
+}
+
+notebook header tab label {
+    color: #555;
+}
+
+notebook header tab:checked label {
+    color: #fff;
+}
+
+notebook header tab:not(:checked):hover {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+paned separator {
+    background: transparent;
+    border: none;
+    min-width: 1px;
+    min-height: 1px;
+    padding: 0px;
+    margin: 1px;
+}
