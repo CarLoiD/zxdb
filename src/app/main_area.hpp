@@ -13,37 +13,29 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: main_window.hpp
+// File: main_area.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef CLIENT_MAIN_WINDOW_HPP_
-#define CLIENT_MAIN_WINDOW_HPP_
+#ifndef APP_MAIN_AREA_HPP_
+#define APP_MAIN_AREA_HPP_
 
-#include "main_area.hpp"
+#include <libgui/libgui.hpp>
 
-class MainWindow : public UI::Window {
-private:
-    void OnMenuCommand(s32 id);
-    void SetupMenuBar();
-    void SetupHeaderBar();
-    void SetupCustomStyle();
-    void SetupArea();
-    void SetupStatusBar();
+struct MainArea {
+    static constexpr int kProjSrcInitDivPos = 300;
+    static constexpr int kMemInitDivPos = 940;
+    static constexpr int kBottomInitDivPos = 480;
+    static constexpr int kBottomPanedInitDivPos = 625;
 
-public:
-    MainWindow();
-    
-    // Overwrite so that confirm shutdown dialog can be called
-    bool Close() override;
+    UI::StatusBar status_bar;
 
-private:
-    UI::HeaderBar m_header_bar;
+    UI::Notebook project_views;
+    UI::Notebook source_views;
+    UI::Notebook memory_views;
+    UI::Notebook watch_views;
+    UI::Notebook trace_views;
 
-    UI::MenuBar m_mb;
-    UI::VBox m_vbox;
-
-    // Main area widgets & views
-    MainArea m_area;
+    UI::PanedContainer view_container;
 };
 
-#endif // CLIENT_MAIN_WINDOW_HPP_
+#endif // APP_MAIN_AREA_HPP_

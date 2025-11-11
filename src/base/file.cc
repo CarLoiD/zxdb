@@ -38,8 +38,7 @@ std::string ReadToString(std::string_view file_path) {
     const size_t sz = GetSize(file_path);
     if (!sz) return "!INVALID FILE SIZE!";
 
-    std::string ret;
-    ret.reserve(sz);
+    std::string ret(sz + 1, '\0');
     
     FILE* fp = fopen(file_path.data(), "r");
     if (!fp) return "!INVALID FILE PATH!";

@@ -4,7 +4,7 @@
 }
 
 window { 
-    background-color: #2d2d2d; 
+    background-color: #222222; 
     color: white; 
 }
 
@@ -18,7 +18,7 @@ headerbar {
     padding-bottom: 0px;
     border: none;
     box-shadow: none;
-    background: #2d2d2d;
+    background: #222222;
     color: white;
 }
 
