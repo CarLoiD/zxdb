@@ -28,7 +28,6 @@ private:
     void SetupHeaderBar();
     void SetupCustomStyle();
     void SetupArea();
-    void SetupStatusBar();
 
 public:
     MainWindow();
@@ -38,8 +37,8 @@ public:
 
 private:
     UI::HeaderBar m_header_bar;
-
     UI::MenuBar m_mb;
+
     UI::VBox m_vbox;
 
     // Main area widgets & views

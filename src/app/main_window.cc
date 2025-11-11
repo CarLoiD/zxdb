@@ -103,34 +103,8 @@ void MainWindow::SetupArea() {
     UI::Label trace("TRACE VIEW.");
     m_area.trace_views.AddTab(trace, "Call Stack");
 
-    UI::HPaned bottom;
-    bottom.Add(m_area.watch_views);
-    bottom.Add(m_area.trace_views);
-    bottom.SetDivPosition(MainArea::kBottomPanedInitDivPos);
-
-    UI::Paned* p = nullptr;
-    UI::PanedContainer* container = &m_area.view_container;
-
-    p = container->Append(m_area.project_views, UI::PanedOrientation::kHorizontal);
-    p = container->Append(m_area.source_views, UI::PanedOrientation::kHorizontal);
-    p->SetDivPosition(MainArea::kProjSrcInitDivPos);
-    p = container->Append(m_area.memory_views, UI::PanedOrientation::kHorizontal);
-    p->SetDivPosition(MainArea::kMemInitDivPos);
-    p = container->Append(bottom, UI::PanedOrientation::kVertical);
-    p->SetDivPosition(MainArea::kBottomInitDivPos);
-    
-    // Fill the area with the stack
-    m_vbox.SetOpt(true, true);
-    m_vbox.Add(container->GetRoot());
-}
-
-void MainWindow::SetupStatusBar() {
-    m_area.status_bar.AddColor(UI::Color(0x007acc)); // Color 0 -> Normal Status
-    m_area.status_bar.AddColor(UI::Color(0xfa0000)); // Color 1 -> Error Status
-    m_area.status_bar.AddColor(UI::Color(0xf55505)); // Color 2 -> Warning Status
-    m_area.status_bar.SetText("Ready", 0);
-
-    m_vbox.Add(m_area.status_bar);
+    // Initialize icon toolbar, views and status bar
+    m_area.Initialize();
 }
 
 MainWindow::MainWindow() {
@@ -138,13 +112,12 @@ MainWindow::MainWindow() {
     Maximize();
     
     // Attach main vertical container
-    Add(m_vbox);
+    Add(m_area.box);
 
     SetupMenuBar();
     SetupHeaderBar();
     SetupCustomStyle();
     SetupArea();
-    SetupStatusBar();
 }
 
 bool MainWindow::Close() {

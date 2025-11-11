@@ -133,4 +133,3 @@ void SetupHelpMenu(UI::MenuBar& bar) {
         bar.AppendItem(help_about, MenuOpt::kHelpAbout);
     bar.PopSubmenu();
 }
-

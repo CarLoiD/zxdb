@@ -1,6 +1,6 @@
 * {
     font-family: 'Noto Sans';
-    font-size: 12.7px;
+    font-size: 12px;
 }
 
 window { 
@@ -110,5 +110,5 @@ paned separator {
     min-width: 1px;
     min-height: 1px;
     padding: 0px;
-    margin: 1px;
+    margin: 0px;
 }
