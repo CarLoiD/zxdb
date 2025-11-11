@@ -50,16 +50,21 @@ void SetupSessionMenu(UI::MenuBar& bar) {
         bar.AppendSeparator();
         bar.AppendItem(session_exit, MenuOpt::kSessionExit);
     bar.PopSubmenu();
+
+    bar.DisableItem(0, MenuOpt::kSessionSave);
+    bar.DisableItem(0, MenuOpt::kSessionSaveAs);
+    bar.DisableItem(0, MenuOpt::kSessionRecentExecs);
+    bar.DisableItem(0, MenuOpt::kSessionRecentSessions);
 }
 
 void SetupViewMenu(UI::MenuBar& bar) {
-    UI::MenuItem view_fullscreen("_Full Screen", "Shift+Alt+Enter");
     UI::MenuItem view_breakpoints("_Breakpoints", "Ctrl+Shift+B");
     UI::MenuItem view_disassembly("_Disassembly", "Ctrl+Shift+D");
     UI::MenuItem view_memory("_Memory", "Ctrl+Shift+M");
     UI::MenuItem view_log_console("_Log Console", "Ctrl+Shift+L");
     UI::MenuItem view_registers("_Registers", "Ctrl+Shift+R");
     UI::MenuItem view_watch("_Watch", "Ctrl+Shift+W");
+    UI::MenuItem view_fullscreen("_Full Screen", "Shift+Alt+Enter");
 
     bar.PushSubmenu("_View");
         bar.AppendItem(view_breakpoints, MenuOpt::kViewBreakpoints);
@@ -78,6 +83,13 @@ void SetupViewMenu(UI::MenuBar& bar) {
             // TODO: Layout related functions
         bar.PopSubmenu();
     bar.PopSubmenu();
+
+    bar.DisableItem(1, MenuOpt::kViewBreakpoints);
+    bar.DisableItem(1, MenuOpt::kViewDisassembly);
+    bar.DisableItem(1, MenuOpt::kViewMemory);
+    bar.DisableItem(1, MenuOpt::kViewLogConsole);
+    bar.DisableItem(1, MenuOpt::kViewRegisters);
+    bar.DisableItem(1, MenuOpt::kViewLayout);
 }
 
 void SetupDebugMenu(UI::MenuBar& bar) {

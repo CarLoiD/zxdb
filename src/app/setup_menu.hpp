@@ -27,29 +27,27 @@ struct MenuId {
         // File
         kSessionNew = 0,
         kSessionOpen,
+        kSep0,
         kSessionSave,
         kSessionSaveAs,
-        kSessionRecentExec1,
-        kSessionRecentExec2,
-        kSessionRecentExec3,
-        kSessionRecentExec4,
-        kSessionRecentExec5,
-        kSessionRecentSession1,
-        kSessionRecentSession2,
-        kSessionRecentSession3,
-        kSessionRecentSession4,
-        kSessionRecentSession5,
+        kSep1,
+        kSessionRecentExecs,
+        kSessionRecentSessions,
+        kSep2,
         kSessionSettings,
+        kSep3,
         kSessionExit,
 
         // View
-        kViewAppearanceFullScreen,
         kViewBreakpoints,
         kViewDisassembly,
         kViewMemory,
         kViewLogConsole,
         kViewRegisters,
         kViewWatch,
+        kSep4,
+        kViewAppearance,
+        kViewLayout,
 
         // Debug
         kDebugRun,
@@ -70,6 +68,8 @@ struct MenuId {
         kHelpDebuggerManual,
         kHelpR5900Manual,
         kHelpAbout,
+
+        kViewAppearanceFullScreen,
     };
 };
 

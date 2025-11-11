@@ -20,6 +20,20 @@
 #include "application.hpp"
 #include "base/assert.hpp"
 
+namespace {
+
+GtkWidget* GetSubmenuItem(GtkMenu* menu, const size_t at) {
+    GtkWidget* ret = nullptr;
+
+    GList* items = gtk_container_get_children(GTK_CONTAINER(menu));
+    ret = static_cast<GtkWidget*>(g_list_nth_data(items, at));
+    g_list_free(items);
+    
+    return ret;
+}
+
+}
+
 namespace UI {
 
 MenuBar::MenuBar()
@@ -38,6 +52,8 @@ void MenuBar::PushSubmenu(std::string_view label) {
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), menu);
     m_stack.push_back({ menu_item, menu });
+
+    m_submenus.push_back({ menu, label });
 }
 
 void MenuBar::PopSubmenu() {
@@ -55,6 +71,20 @@ void MenuBar::PopSubmenu() {
     }
 
     gtk_widget_show_all(submenu.menu_item);
+}
+
+void MenuBar::EnableItem(const size_t submenu, const size_t item) {
+    GtkMenu* submenu_instance = GTK_MENU(m_submenus.at(submenu).instance);
+
+    Widget at(GetSubmenuItem(submenu_instance, item));
+    at.Enable();
+}
+
+void MenuBar::DisableItem(const size_t submenu, const size_t item) {
+    GtkMenu* submenu_instance = GTK_MENU(m_submenus.at(submenu).instance);
+    
+    Widget at(GetSubmenuItem(submenu_instance, item));
+    at.Disable();
 }
 
 void MenuBar::AppendItem(MenuItem& item, const s32 id) {

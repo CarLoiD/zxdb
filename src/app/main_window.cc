@@ -31,20 +31,6 @@ void MainWindow::OnMenuCommand(s32 id) {
         case MenuOpt::kSessionOpen:
         break;
 
-        case MenuOpt::kSessionRecentExec1:
-        case MenuOpt::kSessionRecentExec2:
-        case MenuOpt::kSessionRecentExec3:
-        case MenuOpt::kSessionRecentExec4:
-        case MenuOpt::kSessionRecentExec5:
-        break;
-        
-        case MenuOpt::kSessionRecentSession1:
-        case MenuOpt::kSessionRecentSession2:
-        case MenuOpt::kSessionRecentSession3:
-        case MenuOpt::kSessionRecentSession4:
-        case MenuOpt::kSessionRecentSession5:
-        break;
-
         case MenuOpt::kSessionExit:
             Close();
         break;
@@ -64,14 +50,14 @@ void MainWindow::SetupMenuBar() {
 }
 
 void MainWindow::SetupHeaderBar() {
-    m_header_bar.SetTitle("zx-debugger"); // Default title while no session is loaded
+    // Default title while no session is loaded
+    m_header_bar.SetTitle("zx-debugger"); 
 
     UI::Image app_icon("res/icon/app.png");
     app_icon.SetMargin(UI::MarginOpt::kStart, 8);
 
     m_header_bar.Add(app_icon);
     m_header_bar.Add(m_mb);
-
     SetHeaderBar(m_header_bar);
 }
 
@@ -115,7 +101,7 @@ MainWindow::MainWindow() {
     m_empty.SetTextColor(UI::Color(0xa0a0a0));
     m_empty.SetText(
         "No active session. "
-        "Use Session -> New or press Ctrl+N to start a new debugging session."
+        "Open an existing session (Ctrl+O) or create a new one to start debugging."
     );
     
     m_current_view.AddNamed(m_empty, "empty");

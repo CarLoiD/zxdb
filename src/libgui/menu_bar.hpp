@@ -47,6 +47,9 @@ public:
     void PushSubmenu(std::string_view label);
     void PopSubmenu();
 
+    void EnableItem(const size_t submenu, const size_t item);
+    void DisableItem(const size_t submenu, const size_t item);
+
     // Instead of manually assigning callbacks for each submenu item,
     // Each submenu will have it's ID, with only a single callback bound via
     // SetOnCommandCallback(), each submenu has it's activate signal set so
