@@ -110,9 +110,19 @@ void MainWindow::SetupArea() {
 MainWindow::MainWindow() {
     Resize(kInitWidth, kInitHeight);
     Maximize();
+
+    // Setup no-session label
+    m_empty.SetTextColor(UI::Color(0xa0a0a0));
+    m_empty.SetText(
+        "No active session. "
+        "Use Session -> New or press Ctrl+N to start a new debugging session."
+    );
     
-    // Attach main vertical container
-    Add(m_area.box);
+    m_current_view.AddNamed(m_empty, "empty");
+    m_current_view.AddNamed(m_area.box, "main");
+    m_current_view.SetVisible("empty");
+
+    Add(m_current_view);
 
     SetupMenuBar();
     SetupHeaderBar();

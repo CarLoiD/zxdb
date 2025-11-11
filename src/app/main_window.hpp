@@ -38,8 +38,9 @@ public:
 private:
     UI::HeaderBar m_header_bar;
     UI::MenuBar m_mb;
-
-    UI::VBox m_vbox;
+    
+    UI::Label m_empty;
+    UI::Stack m_current_view;
 
     // Main area widgets & views
     MainArea m_area;
