@@ -83,13 +83,10 @@ void SetupViewMenu(UI::MenuBar& bar) {
             // TODO: Layout related functions
         bar.PopSubmenu();
     bar.PopSubmenu();
-
-    bar.DisableItem(1, MenuOpt::kViewBreakpoints);
-    bar.DisableItem(1, MenuOpt::kViewDisassembly);
-    bar.DisableItem(1, MenuOpt::kViewMemory);
-    bar.DisableItem(1, MenuOpt::kViewLogConsole);
-    bar.DisableItem(1, MenuOpt::kViewRegisters);
-    bar.DisableItem(1, MenuOpt::kViewLayout);
+    
+    const auto offset = MenuOpt::kViewBreakpoints;
+    bar.DisableItem(1, MenuOpt::kViewBreakpoints - offset);
+    bar.DisableItem(1, MenuOpt::kViewDisassembly - offset);
 }
 
 void SetupDebugMenu(UI::MenuBar& bar) {

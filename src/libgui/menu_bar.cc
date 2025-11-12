@@ -32,7 +32,7 @@ GtkWidget* GetSubmenuItem(GtkMenu* menu, const size_t at) {
     return ret;
 }
 
-}
+} // namespace
 
 namespace UI {
 
@@ -52,8 +52,11 @@ void MenuBar::PushSubmenu(std::string_view label) {
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), menu);
     m_stack.push_back({ menu_item, menu });
-
-    m_submenus.push_back({ menu, label });
+    
+    // Save top-level submenus
+    if (m_stack.size() == 1) {
+        m_submenus.push_back({ menu, label });
+    }
 }
 
 void MenuBar::PopSubmenu() {
