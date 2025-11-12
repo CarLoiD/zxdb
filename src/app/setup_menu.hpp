@@ -47,29 +47,35 @@ struct MenuId {
         kViewWatch,
         kSep4,
         kViewAppearance,
-        kViewLayout,
+        //kViewLayout,
 
         // Debug
         kDebugRun,
         kDebugRunWithoutDebugging,
+        kSep5,
         kDebugContinue,
         kDebugBreak,
         kDebugRestart,
+        kSep6,
         kDebugStepOver,
         kDebugStepIn,
         kDebugStepOut,
+        kSep7,
         kDebugToggleBreakpoint,
-        kDebugNewBptFunc,
-        kDebugNewBptAddr,
+        kDebugNewBreakpoint,
         kDebugDeleteAllBrkpts,
+        kSep8,
         kDebugExportDump,
 
         // Help
         kHelpDebuggerManual,
-        kHelpR5900Manual,
+        kSep9,
         kHelpAbout,
 
+        // Misc submenus...
         kViewAppearanceFullScreen,
+        kDebugNewBptFunc,
+        kDebugNewBptAddr,
     };
 };
 

@@ -131,4 +131,8 @@ void MenuBar::AppendSeparator() {
     gtk_widget_show(item);
 }
 
+Widget MenuBar::operator[](const size_t index) {
+    return Widget(m_submenus.at(index).instance);
+}
+
 } // namespace UI

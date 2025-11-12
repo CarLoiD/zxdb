@@ -68,8 +68,9 @@ public:
             (instance->*method)(id);
         };
     }
-
-    Widget& operator[](const size_t index); 
+    
+    // Submenu subscripting
+    Widget operator[](const size_t index); 
 
 private:
     GtkMenuBar* m_mb;

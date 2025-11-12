@@ -79,14 +79,16 @@ void SetupViewMenu(UI::MenuBar& bar) {
             bar.AppendItem(view_fullscreen, MenuOpt::kViewAppearanceFullScreen);
         bar.PopSubmenu();
 
-        bar.PushSubmenu("Layout");
-            // TODO: Layout related functions
-        bar.PopSubmenu();
+        // TODO: Layout related functions
     bar.PopSubmenu();
     
     const auto offset = MenuOpt::kViewBreakpoints;
     bar.DisableItem(1, MenuOpt::kViewBreakpoints - offset);
     bar.DisableItem(1, MenuOpt::kViewDisassembly - offset);
+    bar.DisableItem(1, MenuOpt::kViewMemory - offset);
+    bar.DisableItem(1, MenuOpt::kViewLogConsole - offset);
+    bar.DisableItem(1, MenuOpt::kViewRegisters - offset);
+    bar.DisableItem(1, MenuOpt::kViewWatch - offset);
 }
 
 void SetupDebugMenu(UI::MenuBar& bar) {
@@ -129,6 +131,20 @@ void SetupDebugMenu(UI::MenuBar& bar) {
         bar.AppendSeparator();
         bar.AppendItem(debug_export_dump, MenuOpt::kDebugExportDump);
     bar.PopSubmenu();
+
+    const auto offset = MenuOpt::kDebugRun;
+    bar.DisableItem(2, MenuOpt::kDebugRun - offset);
+    bar.DisableItem(2, MenuOpt::kDebugRunWithoutDebugging - offset);
+    bar.DisableItem(2, MenuOpt::kDebugContinue - offset);
+    bar.DisableItem(2, MenuOpt::kDebugBreak - offset);
+    bar.DisableItem(2, MenuOpt::kDebugRestart - offset);
+    bar.DisableItem(2, MenuOpt::kDebugStepOver - offset);
+    bar.DisableItem(2, MenuOpt::kDebugStepIn - offset);
+    bar.DisableItem(2, MenuOpt::kDebugStepOut - offset);
+    bar.DisableItem(2, MenuOpt::kDebugToggleBreakpoint - offset);
+    bar.DisableItem(2, MenuOpt::kDebugNewBreakpoint - offset);
+    bar.DisableItem(2, MenuOpt::kDebugDeleteAllBrkpts - offset);
+    bar.DisableItem(2, MenuOpt::kDebugExportDump - offset);
 }
 
 void SetupHelpMenu(UI::MenuBar& bar) {
