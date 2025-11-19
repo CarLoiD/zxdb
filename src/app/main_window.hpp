@@ -20,6 +20,7 @@
 #define CLIENT_MAIN_WINDOW_HPP_
 
 #include "main_area.hpp"
+#include "dbg_session.hpp"
 
 class MainWindow : public UI::Window {
 private:
@@ -44,6 +45,9 @@ private:
 
     // Main area widgets & views
     MainArea m_area;
+
+    // Current debugging session
+    DbgSession m_session;
 };
 
 #endif // CLIENT_MAIN_WINDOW_HPP_

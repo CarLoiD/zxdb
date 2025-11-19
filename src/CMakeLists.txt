@@ -48,7 +48,8 @@ zx_cc_library(
     LIBS ${GTK3_LIBRARIES} zx::base
     COPTS ${GTK3_CFLAGS_OTHER})
 
-set(ZXDB_BIN app/main.cc
+set(ZXDB_BIN app/dbg_session.cc
+             app/main.cc
              app/main_area.cc
              app/main_window.cc
              app/setup_menu.cc)

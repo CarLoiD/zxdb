@@ -13,40 +13,49 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: window.hpp
+// File: dbg_session.cc
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_WINDOW_HPP_
-#define LIBGUI_WINDOW_HPP_
+#include "dbg_session.hpp"
 
-#include <libgui/widget.hpp>
-#include <string>
+DbgSession::DbgSession()
+    : m_initialized(false)
+    , m_wnd(nullptr)
+{}
 
-namespace UI {
+DbgSession::~DbgSession() {
+    if (m_initialized) {
+        Close();
+    }
+}
 
-class HeaderBar;
+void DbgSession::Initialize(UI::Window* window) {
+    m_wnd = window;
+    m_initialized = true;
+}
 
-class Window : public Widget {
-public:
-    Window();
+void DbgSession::Close() {
 
-    // Used to customize the default header bar to contain menus, icons, entries etc.
-    void SetHeaderBar(HeaderBar& bar);
+    m_initialized = false;
+}
 
-    void SetTitle(std::string_view new_title);
-    void Resize(int new_width, int new_height);
-    void Maximize();
-    virtual bool Close(); // Can overwrite the default behavior on close (e.g: confirm shutdown)
+s32 DbgSession::New() {
+    ASSERT_PTR(m_wnd);
 
-    // A GTK3 Window can have a single child widget bound on it's container
-    void Add(Widget& child) override;
+    s32 ret = -1;
+    m_elf_path = m_wnd->GetFileDialog("Select ELF file to debug", false);    
+    if (!m_elf_path.empty()) {
 
-    std::string GetFileDialog(std::string_view title, const bool folder);
+        ret = 0;
+    }
 
-private:
-    GtkWindow* m_wnd;
-};
+    return ret;
+}
 
-} // namespace UI
+s32 DbgSession::Open() {
+    ASSERT_PTR(m_wnd);
 
-#endif // LIBGUI_WINDOW_HPP_
+    s32 ret = -1;
+
+    return ret;
+}

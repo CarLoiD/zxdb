@@ -58,4 +58,47 @@ void Window::Add(Widget& child) {
     gtk_container_add(GTK_CONTAINER(m_handle), child.GetHandle());
 }
 
+std::string Window::GetFileDialog(std::string_view title, const bool folder) {
+    std::string ret = "";
+
+    // Abstracting this doesn't make sense to me, instead since it depends on a Window parent, it's
+    // easier and simpler to implement a function that handle both file and folder chooser dialog.
+
+    GtkFileChooserAction flag = folder
+        ? GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER
+        : GTK_FILE_CHOOSER_ACTION_OPEN;
+
+    GtkWidget* chooser = gtk_file_chooser_dialog_new(
+        title.data(),
+        m_wnd,
+        flag,
+        "_Cancel", GTK_RESPONSE_CANCEL,
+        "_Open", GTK_RESPONSE_ACCEPT,
+        nullptr
+    );
+
+    // Default current folder is the home directory (useful specially on Linux)
+    gtk_file_chooser_set_current_folder(
+        GTK_FILE_CHOOSER(chooser),
+        g_get_home_dir()
+    );
+    
+    // Default filters for file chooser
+    if (!folder) {
+        GtkFileFilter* filter = gtk_file_filter_new();
+        gtk_file_filter_set_name(filter, "All Files (*.*)");
+        gtk_file_filter_add_pattern(filter, "*.*");
+
+        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(chooser), filter);
+    }
+
+    s32 btn_ret = gtk_dialog_run(GTK_DIALOG(chooser));
+    if (btn_ret == GTK_RESPONSE_ACCEPT) {
+        ret = std::string(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser)));
+    }
+
+    gtk_widget_destroy(chooser);
+    return ret;
+}
+
 } // namespace UI

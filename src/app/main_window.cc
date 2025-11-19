@@ -24,11 +24,21 @@ constexpr u32 kInitHeight = 720;
 
 void MainWindow::OnMenuCommand(s32 id) {
     MenuOpt opt = static_cast<MenuOpt>(id);
+    s32 ret = -1;
+
     switch (opt) {
         case MenuOpt::kSessionNew:
+            ret = m_session.New();
+            if (ret >= 0) {
+
+            }
         break;
 
         case MenuOpt::kSessionOpen:
+            ret = m_session.Open();
+            if (ret >= 0) {
+
+            }
         break;
 
         case MenuOpt::kSessionExit:
@@ -95,7 +105,7 @@ void MainWindow::SetupArea() {
 
 MainWindow::MainWindow() {
     Resize(kInitWidth, kInitHeight);
-    Maximize();
+    //Maximize();
 
     // Setup no-session label
     m_empty.SetTextColor(UI::Color(0xa0a0a0));
@@ -114,6 +124,8 @@ MainWindow::MainWindow() {
     SetupHeaderBar();
     SetupCustomStyle();
     SetupArea();
+
+    m_session.Initialize(this);
 }
 
 bool MainWindow::Close() {

@@ -13,40 +13,33 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: window.hpp
+// File: dbg_session.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_WINDOW_HPP_
-#define LIBGUI_WINDOW_HPP_
+#ifndef APP_DBG_SESSION_HPP_
+#define APP_DBG_SESSION_HPP_
 
-#include <libgui/widget.hpp>
+#include <libgui/libgui.hpp>
 #include <string>
 
-namespace UI {
-
-class HeaderBar;
-
-class Window : public Widget {
+class DbgSession final {
 public:
-    Window();
+    DbgSession();
+    ~DbgSession();
 
-    // Used to customize the default header bar to contain menus, icons, entries etc.
-    void SetHeaderBar(HeaderBar& bar);
+    void Initialize(UI::Window* window);
+    void Close();
 
-    void SetTitle(std::string_view new_title);
-    void Resize(int new_width, int new_height);
-    void Maximize();
-    virtual bool Close(); // Can overwrite the default behavior on close (e.g: confirm shutdown)
+    s32  New();
+    s32  Open();
 
-    // A GTK3 Window can have a single child widget bound on it's container
-    void Add(Widget& child) override;
-
-    std::string GetFileDialog(std::string_view title, const bool folder);
+    bool IsInitialized() const { return m_initialized; }
 
 private:
-    GtkWindow* m_wnd;
+    bool m_initialized;
+
+    UI::Window* m_wnd;
+    std::string m_elf_path;
 };
 
-} // namespace UI
-
-#endif // LIBGUI_WINDOW_HPP_
+#endif // APP_DBG_SESSION_HPP_
