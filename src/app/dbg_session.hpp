@@ -21,6 +21,7 @@
 
 #include <libgui/libgui.hpp>
 #include <string>
+#include <cstdio>
 
 class DbgSession final {
 public:
@@ -34,12 +35,16 @@ public:
     s32  Open();
 
     bool IsInitialized() const { return m_initialized; }
+    std::string GetElfPath() const { return m_elf_path; }
+    FILE* GetFileHandle() const { return m_fp; }
 
 private:
     bool m_initialized;
 
     UI::Window* m_wnd;
     std::string m_elf_path;
+
+    FILE* m_fp;
 };
 
 #endif // APP_DBG_SESSION_HPP_

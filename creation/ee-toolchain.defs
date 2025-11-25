@@ -1,0 +1,18 @@
+EE_CC  := ee-gcc
+EE_CXX := ee-g++
+EE_AR  := ee-ar
+EE_AS  := ee-as
+EE_LD  := ee-gcc
+
+DVP_AS := dvp-as
+
+SDK_EE     := $(PS2SDK)/ee
+SDK_EE_LIB := $(PS2SDK)/lib
+SDK_EE_INC := $(PS2SDK)/include
+
+EE_LINK_SCRIPT := $(SDK_EE)/startup/linkfile
+EE_INC := -I$(SDK_EE_INC) -I$(PS2SDK)/common/include -Iinclude
+
+EE_MACROS   := -D _EE -D _PLAYSTATION_2_ -D MACRO_VU0=1
+EE_CFLAGS   := $(EE_MACROS) $(EE_INC) -Wno-strict-aliasing -fno-common -MMD -MP
+EE_CXXFLAGS := $(EE_CFLAGS) -std=c++11 -fno-
