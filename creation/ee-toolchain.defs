@@ -1,18 +1,30 @@
-EE_CC  := ee-gcc
-EE_CXX := ee-g++
-EE_AR  := ee-ar
-EE_AS  := ee-as
-EE_LD  := ee-gcc
+EE_PREFIX := mips64r5900el-ps2-elf
+
+EE_CC  := $(EE_PREFIX)-gcc
+EE_CXX := $(EE_PREFIX)-g++
+EE_AR  := $(EE_PREFIX)-ar
+EE_AS  := $(EE_PREFIX)-gcc
+EE_LD  := $(EE_PREFIX)-gcc
 
 DVP_AS := dvp-as
 
 SDK_EE     := $(PS2SDK)/ee
-SDK_EE_LIB := $(PS2SDK)/lib
-SDK_EE_INC := $(PS2SDK)/include
+SDK_EE_LIB := $(SDK_EE)/lib
+SDK_EE_INC := $(SDK_EE)/include
 
 EE_LINK_SCRIPT := $(SDK_EE)/startup/linkfile
 EE_INC := -I$(SDK_EE_INC) -I$(PS2SDK)/common/include -Iinclude
 
 EE_MACROS   := -D _EE -D _PLAYSTATION_2_ -D MACRO_VU0=1
 EE_CFLAGS   := $(EE_MACROS) $(EE_INC) -Wno-strict-aliasing -fno-common -MMD -MP
-EE_CXXFLAGS := $(EE_CFLAGS) -std=c++11 -fno-
+EE_LDFLAGS  := -T$(EE_LINK_SCRIPT) -Wl,-zmax-page-size=128 -L$(SDK_EE_LIB)
+EE_LDFLAGS  += -lm -lc -lkernel
+
+ifeq ($(CONFIG),debug)
+    EE_CFLAGS += -Wall -Wno-unused-function -g -O0 -fno-omit-frame-pointer
+    EE_CFLAGS += -DZX_DEBUG=1
+else ifeq ($(CONFIG),release)
+    EE_CFLAGS += -O2 -DZX_DEBUG=0
+endif
+
+EE_CXXFLAGS := $(EE_CFLAGS) -std=c++98 -fno-exceptions -fno-rtti
