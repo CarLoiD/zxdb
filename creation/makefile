@@ -1,6 +1,13 @@
 PROJECT := creation
 CONFIG  ?= debug
 
+UNAME_S := $(shell uname -s)
+
+# Detect MSYS environment
+ifneq ($(filter MINGW% MSYS% CYGWIN%,$(UNAME_S)),)
+	PLATFORM := msys
+endif
+
 ifneq ($(filter debug release,$(CONFIG)),$(CONFIG))
 	$(error CONFIG must be 'debug' or 'release', got '$(CONFIG)')
 endif
@@ -8,20 +15,25 @@ endif
 OBJDIR := obj
 SRCDIR := src
 
-C_SRCS := $(wildcard $(SRCDIR)/*.c)
-CPP_SRCS := $(wildcard $(SRCDIR)/*.cc)
-ASM_SRCS := $(wildcard $(SRCDIR)/*.S)
+C_SRCS  := $(shell find $(SRCDIR) -type f -name '*.c') 
+CC_SRCS := $(shell find $(SRCDIR) -type f -name '*.cc')
+AS_SRCS := $(shell find $(SRCDIR) -type f -name '*.S')
 
 OBJS := $(patsubst $(SRCDIR)/%.c,  $(OBJDIR)/%.o, $(C_SRCS))
-OBJS += $(patsubst $(SRCDIR)/%.cc, $(OBJDIR)/%.o, $(CPP_SRCS))
-OBJS += $(patsubst $(SRCDIR)/%.S,  $(OBJDIR)/%.o, $(ASM_SRCS))
+OBJS += $(patsubst $(SRCDIR)/%.cc, $(OBJDIR)/%.o, $(CC_SRCS))
+OBJS += $(patsubst $(SRCDIR)/%.S,  $(OBJDIR)/%.o, $(AS_SRCS))
 
 DEPS := $(OBJS:%.o=%.d)
 
 MAKEFLAGS += --no-print-directory CONFIG=$(CONFIG)
 
-ELF = $(PROJECT).elf
+ELF := $(PROJECT).elf
 FILE := $(CURDIR)/$(ELF)
+
+ifeq ($(PLATFORM),msys)
+	FILE := $(shell cygpath -w $(FILE)) 
+endif
+
 
 RM  := rm -f
 RMD := rm -rf
@@ -35,6 +47,7 @@ header:
 	@echo "/> Build config: $(CONFIG)"
 	@echo "/> EE C Compiler: $(EE_CC)"
 	@echo "/> EE C++ Compiler: $(EE_CXX)"
+	@echo "/> Target ELF: $(FILE)"
 
 $(OBJDIR):
 	@mkdir -p $@
@@ -62,6 +75,6 @@ clean: header
 	@$(RMD) $(OBJDIR)
 	@$(RM) $(ELF)
 
-run_emulator:
+run_emulator: $(ELF)
 	@echo "/> Running target on PlayStation 2 emulator"
 	@pcsx2-qt -- $(FILE)

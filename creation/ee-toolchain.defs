@@ -1,5 +1,9 @@
 EE_PREFIX := mips64r5900el-ps2-elf
 
+ifeq ($(PLATFORM),msys)
+    EE_PREFIX := ee
+endif
+
 EE_CC  := $(EE_PREFIX)-gcc
 EE_CXX := $(EE_PREFIX)-g++
 EE_AR  := $(EE_PREFIX)-ar
@@ -27,4 +31,4 @@ else ifeq ($(CONFIG),release)
     EE_CFLAGS += -O2 -DZX_DEBUG=0
 endif
 
-EE_CXXFLAGS := $(EE_CFLAGS) -std=c++98 -fno-exceptions -fno-rtti
+EE_CXXFLAGS := $(EE_CFLAGS) -std=c++14 -fno-exceptions -fno-rtti
